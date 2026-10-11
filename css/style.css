@@ -1,0 +1,97 @@
+/* Thêm vào đầu file style.css */
+:root[data-theme="light"] {
+  --bg-dark: #f8fafc;
+  --bg-card: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+}
+/* Nút bấm trên thanh Header */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.icon-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.menu-toggle {
+  display: none; /* Mặc định ẩn trên máy tính */
+}
+
+/* Lớp phủ mờ nền khi mở menu */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Menu trượt từ mép phải */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -280px; /* Giấu ra ngoài màn hình */
+  width: 280px;
+  height: 100vh;
+  background-color: var(--bg-card);
+  border-left: 1px solid var(--border-color);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.5rem;
+  transition: right 0.3s ease;
+}
+
+.mobile-menu.active {
+  right: 0; /* Trượt vào */
+}
+
+.close-btn {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  color: var(--text-main);
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-bottom: 2rem;
+}
+
+.mobile-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.mobile-links a {
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* Kích hoạt trên màn hình điện thoại */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; /* Ẩn menu ngang cũ */
+  }
+  .menu-toggle {
+    display: block; /* Hiện nút hamburger ☰ */
+  }
+}

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Cá Nhân</title>
+  <style>
+    /* 1. CSS VARIABLES CHO LIGHT & DARK MODE */
+    :root[data-theme="dark"] {
+      --bg-body: #0f172a;
+      --bg-surface: #1e293b;
+      --bg-nav: rgba(15, 23, 42, 0.95);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: #334155;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+    }
+
+    :root[data-theme="light"] {
+      --bg-body: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-nav: rgba(255, 255, 255, 0.95);
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* 2. HEADER & NAVIGATION */
+    .header {
+      position: sticky;
+      top: 0;
+      background-color: var(--bg-nav);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border-color);
+      z-index: 100;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 70px;
+    }
+
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--text-main);
+      text-decoration: none;
+    }
+
+    .logo span {
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .icon-btn {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.4rem 0.75rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .menu-toggle {
+      display: none;
+    }
+
+    /* 3. MOBILE DRAWER MENU & BACKDROP */
+    .backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 150;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: -280px;
+      width: 280px;
+      height: 100vh;
+      background-color: var(--bg-surface);
+      border-left: 1px solid var(--border-color);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 1.5rem;
+      transition: right 0.3s ease;
+    }
+
+    .mobile-menu.active {
+      right: 0;
+    }
+
+    .close-btn {
+      align-self: flex-end;
+      background: none;
+      border: none;
+      color: var(--text-main);
+      font-size: 1.5rem;
+      cursor: pointer;
+      margin-bottom: 2rem;
+    }
+
+    .mobile-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .mobile-links a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    /* 4. SECTIONS & CARDS */
+    .hero {
+      padding: 6rem 0;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 2.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 1rem auto 2rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 600;
+      text-decoration: none;
+      background-color: var(--primary);
+      color: #fff;
+    }
+
+    .skills, .projects {
+      padding: 4rem 0;
+    }
+
+    .section-title {
+      font-size: 1.75rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+
+    .card h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* 5. RESPONSIVE BREAKPOINT */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      .menu-toggle {
+        display: block;
+      }
+      .hero h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container nav-container">
+      <a href="#" class="logo">Dev<span>Portfolio</span></a>
+      <nav class="nav-links">
+        <a href="#about">Về tôi</a>
+        <a href="#skills">Kỹ năng</a>
+        <a href="#projects">Dự án</a>
+      </nav>
+      <div class="nav-actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Toggle Theme">🌙</button>
+        <button id="menuOpen" class="icon-btn menu-toggle" aria-label="Open Menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu & Backdrop -->
+  <div id="backdrop" class="backdrop"></div>
+  <aside id="mobileMenu" class="mobile-menu">
+    <button id="menuClose" class="close-btn" aria-label="Close Menu">&times;</button>
+    <nav class="mobile-links">
+      <a href="#about" class="mobile-link">Về tôi</a>
+      <a href="#skills" class="mobile-link">Kỹ năng</a>
+      <a href="#projects" class="mobile-link">Dự án</a>
+    </nav>
+  </aside>
+
+  <!-- Hero Section -->
+  <section class="hero" id="about">
+    <div class="container">
+      <h1>Nguyễn Văn A</h1>
+      <p>Frontend Developer với trải nghiệm code giao diện sạch, tối ưu hóa hiệu năng và thiết kế chuẩn Responsive.</p>
+      <a href="#projects" class="btn">Xem dự án</a>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section class="skills" id="skills">
+    <div class="container">
+      <h2 class="section-title">Kỹ năng chuyên môn</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>HTML5 / CSS3</h3>
+          <p>Semantic web, CSS Grid, Flexbox và Dark/Light mode tối ưu.</p>
+        </div>
+        <div class="card">
+          <h3>JavaScript Thuần</h3>
+          <p>DOM manipulation, localStorage, Event Handling không phụ thuộc thư viện ngoài.</p>
+        </div>
+        <div class="card">
+          <h3>Responsive Design</h3>
+          <p>Giao diện tương thích từ mobile, tablet tới desktop màn hình lớn.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section class="projects" id="projects">
+    <div class="container">
+      <h2 class="section-title">Dự án tiêu biểu</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Portfolio Scratch</h3>
+          <p>Trang web cá nhân tự thiết kế từ đầu với HTML/CSS/JS thuần.</p>
+        </div>
+        <div class="card">
+          <h3>E-Commerce UI</h3>
+          <p>Giao diện bán hàng trực tuyến hỗ trợ bộ lọc và giỏ hàng nhanh.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JAVASCRIPT: THEME TOGGLE & MOBILE SLIDE MENU -->
+  <script>
+    // 1. Quản lý Dark / Light Theme kèm localStorage
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const rootEl = document.documentElement;
+
+    function applyTheme(theme) {
+      rootEl.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      themeToggleBtn.textContent = theme === 'dark' ? '🌙' : '☀️';
+    }
+
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    applyTheme(savedTheme);
+
+    themeToggleBtn.addEventListener('click', () => {
+      const currentTheme = rootEl.getAttribute('data-theme');
+      applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+    });
+
+    // 2. Quản lý Mobile Drawer Menu
+    const menuOpenBtn = document.getElementById('menuOpen');
+    const menuCloseBtn = document.getElementById('menuClose');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const backdrop = document.getElementById('backdrop');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    function openMenu() {
+      mobileMenu.classList.add('active');
+      backdrop.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+      mobileMenu.classList.remove('active');
+      backdrop.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    menuOpenBtn.addEventListener('click', openMenu);
+    menuCloseBtn.addEventListener('click', closeMenu);
+    backdrop.addEventListener('click', closeMenu);
+
+    // Tự động đóng menu khi nhấp vào bất kỳ link nào
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+  </script>
+</body>
+</html>
